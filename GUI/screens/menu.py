@@ -12,7 +12,7 @@ class MainMenuScreen(Screen):
                 Static("MAIN MENU", classes="header"),
                 Button("Go to Ping Screen", id="pingBtn"),
                 Button("Go to CURL Screen", id="curlBtn"),
-                Button("Go to SSH Screen", id="scpBtn"),
+                Button("Go to SCP Screen", id="scpBtn"),
             )
         )
         yield Footer()

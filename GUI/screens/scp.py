@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, Header, Footer, Input
+from textual.widgets import Button, Header, Footer, Input, SelectionList
 from textual.screen import Screen
 from textual import on
 
@@ -10,7 +10,16 @@ class SPCScreen(Screen):
 
         yield Horizontal(
             VerticalScroll(
-                Input(placeholder = "Options",),
+                SelectionList[int](
+                    [
+                        ("-r", 0),
+                        ("IPV6 Toggle", 1),
+                        ("Audible Ping", 2),
+                        ("Broadcast Toggle", 3),
+                        ("Flood Toggle", 4),
+                    ],
+                    id="optionID"
+                ),
                 Input(placeholder = "Filename",),
                 Input(placeholder = "Username",),
                 Input(placeholder = "IP",),
@@ -19,6 +28,7 @@ class SPCScreen(Screen):
             ),
             VerticalScroll(
                 Button("Go to main Menu", id="menuBtn"),
+                Button("Start", id="startBtn"),
             )
         )
         yield Footer()
@@ -26,6 +36,10 @@ class SPCScreen(Screen):
     @on(Button.Pressed,"#menuBtn")
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
+
+    @on(Button.Pressed, "startBtn")
+    def onStartPressed(self, event: Button.Pressed) ->None:
+        selectionList = self.query_one("#optionID", SelectionList)
 
 
 

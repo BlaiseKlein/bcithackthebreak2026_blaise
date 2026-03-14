@@ -13,7 +13,7 @@ class PingScreen(Screen):
             VerticalScroll(
                 Input(placeholder = "Dest IP Address"),
                 SelectionList[int](
-                    ("IPV4 Toggle", 0),
+                    ("IPV4 Toggle", 0, ),
                     ("IPV6 Toggle", 1),
                     ("Audible Ping", 2),
                     ("Broadcast Toggle", 3),
@@ -33,7 +33,7 @@ class PingScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
     
-    
+
 
 
 
