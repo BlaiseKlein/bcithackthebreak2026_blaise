@@ -4,19 +4,30 @@ from .cmd_abc import Command
 class CommandSCP(Command):
 
     def __init__(self):
-        self.r = False
-        self.p = True
-        self.i = False
-        self.c = False
-        self.v = False
-        self.l = False
+        # self.r = False
+        # self.p = True
+        # self.i = False
+        # self.c = False
+        # self.v = False
+        # self.l = False
 
-        # self.recursive_copy = False
-        self.port = 8000
-        self.authenticate_with_private_key = "~/temp/pwd.txt"
-        # self.compress = False
-        # self.verbose = False
-        self.limit_bandwidth = 1000
+        # -r recursive copy enabled
+        self.recursive_copy = False
+
+        # -P specify port enabled
+        self.port = None
+
+        # -i authenticate with private key enabled
+        self.authenticate_with_private_key = None
+
+        # -C compress data enabled
+        self.compress = False
+
+        # -v verbose mode enabled
+        self.verbose = False
+
+        # -l limit bandwidth enabled
+        self.limit_bandwidth = None
 
         # Required fields for all options:
 
@@ -38,20 +49,19 @@ class CommandSCP(Command):
     def build_cmd(self):
         cmd = []
 
-
-        if self.r:
+        if self.recursive_copy:
             cmd.append("-r")
         
-        if self.p:
+        if self.port:
             cmd.append(f"-P {self.port}")
 
-        if self.i:
+        if self.authenticate_with_private_key:
             cmd.append(f"-i {self.authenticate_with_private_key}")
         
-        if self.c:
+        if self.compress:
             cmd.append("-C")
         
-        if self.v:
+        if self.verbose:
             cmd.append("-v")
 
         if self.l:
@@ -87,11 +97,7 @@ class CommandSCP(Command):
 
         return cmd
 
-    # def run_cmd(self):
-    #     cmd = self.build_cmd()
-    #     execute("scp", cmd, print)
-    
-
 if __name__ == "__main__":
    scp = CommandSCP() 
    CommandSCP.run_cmd(scp, "scp")
+   
