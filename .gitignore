@@ -1,9 +1,3 @@
-venv/
-.venv/
-
-build
-*.spec
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -157,6 +151,7 @@ activemq-data/
 .env
 .envrc
 .venv
+.venv/
 env/
 venv/
 ENV/
