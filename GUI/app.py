@@ -1,4 +1,4 @@
-from textual import App
+from textual.app import App
 from screens.menu import MainMenuScreen
 from screens.ping import PingScreen
 from screens.scp import SPCScreen
