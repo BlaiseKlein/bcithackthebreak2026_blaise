@@ -17,10 +17,15 @@ class CommandPing(Command):
 
     def parse(self, ui_dict):
         self.dest_ip = ui_dict.get('destId')
-        self.count = ui_dict.get('countId')
-        self.interval = ui_dict.get('intervalId')
-        self.ipv4 = "IPv4 Toggle" in ui_dict.get('options')
-        
+        self.ipv4 = "IPv4" in ui_dict.get('options')
+        self.ipv6 = "IPv6" in ui_dict.get('options')
+        self.audible = "Audible" in ui_dict.get('options')
+        self.broadcast = "Broadcast" in ui_dict.get('options')
+        self.flood = "Flood" in ui_dict.get('options')
+        if ("Count" in ui_dict.get('options')):
+            self.count = ui_dict.get('countId')
+        if ("Interval" in ui_dict.get('options')):
+            self.interval = ui_dict.get('intervalId')
 
 
     def build_cmd(self):
