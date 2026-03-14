@@ -1,14 +1,15 @@
 from textual.app import App
 from screens.menu import MainMenuScreen
-from screens.ip import IPScreen
+from screens.ping import PingScreen
+from screens.scp import SPCScreen
 class Menu(App[str]):
     CSS_PATH = "css/button.tcss"
     
     SCREENS = {
         "main": MainMenuScreen,
-        "ipScreen": IPScreen,
-        # "curl_screen": CURLScreen(),
-        # "ssh_screen": SSHScreen(),
+        "pingScreen": PingScreen,
+        # "curl_screen": CURLScreen,
+        "scpScreen": SPCScreen,
     }
 
     def on_mount(self) -> None:

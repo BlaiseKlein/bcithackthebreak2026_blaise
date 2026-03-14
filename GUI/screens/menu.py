@@ -10,14 +10,18 @@ class MainMenuScreen(Screen):
         yield Horizontal(
             VerticalScroll(
                 Static("MAIN MENU", classes="header"),
-                Button("Go to IP Screen", id="ipBtn"),
+                Button("Go to Ping Screen", id="pingBtn"),
                 Button("Go to CURL Screen", id="curlBtn"),
-                Button("Go to SSH Screen", id="sshBtn"),
+                Button("Go to SSH Screen", id="scpBtn"),
             )
         )
         yield Footer()
     
-    @on(Button.Pressed,"#ipBtn")
-    def go_to_ip(self, event: Button.Pressed) -> None:
-        self.app.push_screen("ipScreen")
+    @on(Button.Pressed,"#pingBtn")
+    def go_to_ping(self, event: Button.Pressed) -> None:
+        self.app.push_screen("pingScreen")
+
+    @on(Button.Pressed,"#scpBtn")
+    def go_to_scp(self, event: Button.Pressed) -> None:
+        self.app.push_screen("scpScreen")
 
