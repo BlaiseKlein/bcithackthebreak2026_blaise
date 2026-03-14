@@ -5,6 +5,7 @@ from textual.screen import Screen
 from textual.validation import Number
 from textual import on
 from screens.ai import AIScreen
+from src.commands.cmd_ping import CommandPing, parse, validate_params, build_cmd, run_cmd
 
 class PingScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
@@ -82,7 +83,18 @@ class PingScreen(Screen):
             
         inputValues["options"] = options
         
-        inputStr = str(inputValues)
+        ping = CommandPing()
+
+        ping.parse(inputValues)
+
+        outputText = ""
+
+        try:
+            ping.validate_params()
+            cmd_string = ping.build_cmd()
+            ping.run_cmd(cmd_string)
+        except ValueError as e:
+            outputText = e
 
         textArea = self.query_one("#textArea", TextArea)
         textArea.text = inputStr
