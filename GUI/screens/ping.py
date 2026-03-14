@@ -11,17 +11,20 @@ class PingScreen(Screen):
 
         yield Horizontal(
             VerticalScroll(
-                Input(placeholder = "Dest IP Address"),
                 SelectionList[int](
                     ("IPV4 Toggle", 0, ),
                     ("IPV6 Toggle", 1),
                     ("Audible Ping", 2),
                     ("Broadcast Toggle", 3),
                     ("Flood Toggle", 4),
+                    ("Count", 5),
+                    ("Interval", 6),
+                    id="optionId"
                 ),
-                Input(placeholder = "Packet Count", validators=[Number()]),
-                Input(placeholder = "Interval Seconds", validators=[Number()]),
-                
+                Input(placeholder = "Dest IP Address"),
+                Input(placeholder = "Packet Count", validators=[Number()], disabled= True, id="countId"),
+                Input(placeholder = "Interval", validators=[Number()], disabled= True, id="intervalId"),
+
             VerticalScroll(
                 Button("Go to main Menu", id="menuBtn"),
                 )
@@ -33,6 +36,12 @@ class PingScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
     
+    @on(SelectionList.SelectedChanged, "#optionId")
+    def onListChanged(self, event: SelectionList.SelectedChanged) ->None:
+        selectionList = self.query_one("#optionId", SelectionList)
+        selectedIndices = selectionList.selected
+        self.query_one("#countId").disabled = 5 not in selectedIndices
+        self.query_one("#intervalId").disabled = 6 not in selectedIndices
 
 
 
