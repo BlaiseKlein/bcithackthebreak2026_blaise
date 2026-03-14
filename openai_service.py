@@ -23,7 +23,7 @@ def get_ai_bot_response(prompt: str):
     
     OPENAI_API_KEY=os.getenv("OPENAI_API_KEY")
 
-    # Checks if no open api key, if none then returns previously generated mock response
+    # Checks if no open api key, if none then will return Not Found string
     if not OPENAI_API_KEY:
         print("No OpenAI Key Available")
         return "OpenAI API Key not found."
