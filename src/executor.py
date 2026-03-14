@@ -9,8 +9,9 @@ import signal
 # param - parameters: a list of the parameters for the command, may be empty
 # param - callback: a function that takes a single string as input, called with the resulting output
 def execute(command, parameters, callback, postparameters = None):
-    try:
+    stringOut = "Nothing happened"
 
+    try:
         completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         if postparameters:
             completed.stdin.write(postparameters.encode())
@@ -20,10 +21,12 @@ def execute(command, parameters, callback, postparameters = None):
             out, err = completed.communicate()
             if len(err) == 0:
                 callback(out.decode("utf-8"))
+                stringOut = out.decode("utf-8")
             else:
                 callback(err.decode("utf-8"))
+                stringOut = err.decode("utf-8")
             completed.send_signal(sig=signal.SIGINT)
-            return 
+            return stringOut
 
         out, err = completed.communicate()
         if len(err) == 0:
@@ -32,6 +35,7 @@ def execute(command, parameters, callback, postparameters = None):
             callback(err.decode("utf-8"))
     except CalledProcessError as e:
         callback(e.stderr.decode("utf-8"))
+        return e.stderr.decode("utf-8")
 
     return False
 
