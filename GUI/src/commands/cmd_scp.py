@@ -4,12 +4,6 @@ from .cmd_abc import Command
 class CommandSCP(Command):
 
     def __init__(self):
-        # self.r = False
-        # self.p = True
-        # self.i = False
-        # self.c = False
-        # self.v = False
-        # self.l = False
 
         # -r recursive copy enabled
         self.recursive_copy = False
@@ -98,6 +92,6 @@ class CommandSCP(Command):
         return cmd
 
 if __name__ == "__main__":
-   scp = CommandSCP() 
-   CommandSCP.run_cmd(scp, "scp")
+   scp = CommandSCP()
+   CommandSCP.run_cmd(scp, "scp", scp.target_password)
    

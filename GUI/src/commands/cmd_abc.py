@@ -7,6 +7,6 @@ class Command(ABC):
     def build_cmd(self):
         pass
 
-    def run_cmd(cmd_tool, cmd_name):
+    def run_cmd(cmd_tool, cmd_name, postparameters = None):
         cmd = cmd_tool.build_cmd()
-        execute(cmd_name, cmd, print)
+        execute(cmd_name, cmd, print, postparameters)
