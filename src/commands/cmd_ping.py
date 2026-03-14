@@ -1,5 +1,4 @@
 from .cmd_abc import Command
-from executor import execute
 
 class CommandPing(Command):
 
@@ -44,12 +43,12 @@ class CommandPing(Command):
 
         return cmd
     
-    def run_cmd(self):
-        cmd = self.build_cmd()
-        execute("ping", cmd, print)
+    # def run_cmd(self):
+    #     cmd = self.build_cmd()
+    #     execute("ping", cmd, print)
     
 
 # To test
 if __name__ == "__main__":
    ping = CommandPing() 
-   CommandPing.run_cmd(ping)
+   CommandPing.run_cmd(ping, "ping")
