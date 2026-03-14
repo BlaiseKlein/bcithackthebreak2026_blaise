@@ -13,6 +13,8 @@ class MainMenuScreen(Screen):
                 Button("Go to Ping Screen", id="pingBtn"),
                 Button("Go to CURL Screen", id="curlBtn"),
                 Button("Go to SCP Screen", id="scpBtn"),
+                Button("Go to SSH Key Screen", id="sshkeyBtn"),
+                Button("Go to Test Screen", id="testBtn"),
             )
         )
         yield Footer()
@@ -25,3 +27,10 @@ class MainMenuScreen(Screen):
     def go_to_scp(self, event: Button.Pressed) -> None:
         self.app.push_screen("scpScreen")
 
+    @on(Button.Pressed,"#sshkeyBtn")
+    def go_to_sshkey(self, event: Button.Pressed) -> None:
+        self.app.push_screen("sshkeyScreen")
+
+    @on(Button.Pressed,"#testBtn")
+    def go_to_test(self, event: Button.Pressed) -> None:
+        self.app.push_screen("testScreen")

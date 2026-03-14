@@ -5,7 +5,7 @@ from subprocess import CalledProcessError
 # param - command: the command to execute
 # param - parameters: a list of the parameters for the command, may be empty
 # param - callback: a function that takes a single string as input, called with the resulting output
-def execute(command, parameters, callback):
+def execute(command, parameters, callback, postparameter = None):
     try:
         completed = subprocess.run([command] + parameters, capture_output=True, check=True)
 
