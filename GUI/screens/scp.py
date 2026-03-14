@@ -1,42 +1,50 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, Header, Footer, Input, SelectionList,TextArea
+from textual.widgets import Button, Header, Footer, Input, SelectionList, TextArea
 from textual.screen import Screen
 from textual import on
+from screens.ai import AIScreen
 
 class SPCScreen(Screen):
+    CSS_PATH = "../css/ping.tcss"
+
     def compose(self) -> ComposeResult:
         yield Header()
-
-        yield Horizontal(
-            VerticalScroll(
-                SelectionList[int](
-                        ("Port (-P)", 0),
-                        ("Limit Bandwidth (-L)", 1),
-                        ("ompression (-C)", 2),
-                        ("Copy Subierctories Recursive (-r)", 3),
-                        ("Verbose(-v)", 4),
-                        ("Private Key(-i)", 5),
-                        id="optionId"
-                ),
-                Input(placeholder = "Filename",id="file"),
-                Input(placeholder = "Username",id="user"),
-                Input(placeholder = "IP",id="ip"),
-                Input(placeholder = "Target Directory",id="directory"),
-                Input(placeholder = "Target Machine Password",id="passwpr"),
-                Input(placeholder = "Port", disabled=True, id="portId"),
-                Input(placeholder = "Bandwidth Limit", disabled=True, id="bandwidthId"),
-                Input(placeholder = "Private Key", disabled=True, id="privateKeyId")
-
-            ),
-            VerticalScroll(
-                Button("Go to main Menu", id="menuBtn"),
-                Button("Submit", id="submitBtn"),
-            ),
-
-            TextArea("",id ="textArea")
+        with VerticalScroll(id="mainContainer"):
+            with Horizontal(id="searchBar"):
+                yield Input(placeholder = "Search", id="aiSearch")
             
-        )
+
+            with Horizontal(id ="content"):
+                    yield VerticalScroll(
+                        SelectionList[int](
+                                ("Port", 0),
+                                ("Limit Bandwidth", 1),
+                                ("ompression", 2),
+                                ("Copy Subdirectories", 3),
+                                ("Verbose", 4),
+                                ("Private Key", 5),
+                                id="optionId"
+                        ),
+                        Input(placeholder = "Filename",id="file"),
+                        Input(placeholder = "Username",id="user"),
+                        Input(placeholder = "IP",id="ip"),
+                        Input(placeholder = "Target Directory",id="directory"),
+                        Input(placeholder = "Target Machine Password",id="passwpr"),
+                        Input(placeholder = "Port", disabled=True, id="portId"),
+                        Input(placeholder = "Bandwidth Limit", disabled=True, id="bandwidthId"),
+                        Input(placeholder = "Private Key", disabled=True, id="privateKeyId")
+                    )
+
+                    yield VerticalScroll(
+                        Button("Search", id="searchBtn"),
+                        Button("Main Menu", id="menuBtn"),
+                        Button("Submit", id="submitBtn"),
+                    )
+                    
+                    yield TextArea("",id ="textArea") 
+            
+        
         yield Footer()
 
     @on(Button.Pressed,"#menuBtn")
@@ -73,7 +81,7 @@ class SPCScreen(Screen):
         options = []   
         for option in allOptions:
             if option["index"] in selectedOptions:
-                options.append(option[""])
+                options.append(option["label"])
             
         inputValues["options"] = options
         
@@ -81,15 +89,8 @@ class SPCScreen(Screen):
 
         textArea = self.query_one("#textArea", TextArea)
         textArea.text = inputStr
-        
-            
 
-
-
-
-
-
-
-
-
-    
+    @on(Button.Pressed, "#searchBtn")
+    def onSearch(self, event: Button.Pressed) -> None:
+        search_value = self.query_one("#aiSearch", Input).value
+        self.app.push_screen(AIScreen(initial_text=search_value))

@@ -2,13 +2,14 @@ from textual.app import App
 from screens.menu import MainMenuScreen
 from screens.ping import PingScreen
 from screens.scp import SPCScreen
+from screens.ai import AIScreen
 class Menu(App[str]):
     CSS_PATH = "css/button.tcss"
     
     SCREENS = {
         "main": MainMenuScreen,
         "pingScreen": PingScreen,
-        # "curl_screen": CURLScreen,
+        "aiScreen": AIScreen,
         "scpScreen": SPCScreen,
     }
 
