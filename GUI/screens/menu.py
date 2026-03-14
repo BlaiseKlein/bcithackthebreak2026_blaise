@@ -10,14 +10,14 @@ class MainMenuScreen(Screen):
         yield Horizontal(
             VerticalScroll(
                 Static("MAIN MENU", classes="header"),
-                Button("Go to IP Screen", id="ip-btn"),
-                Button("Go to CURL Screen", id="curl-screen-btn"),
-                Button("Go to SSH Screen", id="ssh-screen-btn"),
+                Button("Go to IP Screen", id="ipBtn"),
+                Button("Go to CURL Screen", id="curlBtn"),
+                Button("Go to SSH Screen", id="sshBtn"),
             )
         )
         yield Footer()
     
-    @on(Button.Pressed,"#ip-btn")
+    @on(Button.Pressed,"#ipBtn")
     def go_to_ip(self, event: Button.Pressed) -> None:
-        self.app.push_screen("ip_screen")
+        self.app.push_screen("ipScreen")
 

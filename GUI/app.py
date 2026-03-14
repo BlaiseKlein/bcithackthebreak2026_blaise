@@ -6,7 +6,7 @@ class Menu(App[str]):
     
     SCREENS = {
         "main": MainMenuScreen,
-        "ip_screen": IPScreen,
+        "ipScreen": IPScreen,
         # "curl_screen": CURLScreen(),
         # "ssh_screen": SSHScreen(),
     }
