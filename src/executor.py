@@ -14,8 +14,17 @@ def execute(command, parameters, callback, postparameters = None):
         completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         if postparameters:
             completed.stdin.write(postparameters.encode())
-        completed.send_signal(sig=signal.SIGINT)
-        completed.wait(timeout=60)
+        try:
+            completed.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            out, err = completed.communicate()
+            if len(err) == 0:
+                callback(out.decode("utf-8"))
+            else:
+                callback(err.decode("utf-8"))
+            completed.send_signal(sig=signal.SIGINT)
+            return 
+
         out, err = completed.communicate()
         if len(err) == 0:
             callback(out.decode("utf-8"))
