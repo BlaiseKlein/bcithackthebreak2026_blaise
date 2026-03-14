@@ -12,11 +12,8 @@ class SPCScreen(Screen):
             VerticalScroll(
                 SelectionList[int](
                     [
-                        ("-r", 0),
-                        ("IPV6 Toggle", 1),
-                        ("Audible Ping", 2),
-                        ("Broadcast Toggle", 3),
-                        ("Flood Toggle", 4),
+                        ("Port", 0),
+                        ("Bandwidth", 1),
                     ],
                     id="optionID"
                 ),
@@ -24,7 +21,8 @@ class SPCScreen(Screen):
                 Input(placeholder = "Username",),
                 Input(placeholder = "IP",),
                 Input(placeholder = "Target Directory",),
-                Input(placeholder = "Target Machine Password",)
+                Input(placeholder = "Target Machine Password",),
+                Input(placeholder = "Port", disabled=True)
             ),
             VerticalScroll(
                 Button("Go to main Menu", id="menuBtn"),
@@ -37,9 +35,13 @@ class SPCScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
 
-    @on(Button.Pressed, "startBtn")
+    @on(SelectionList.SelectedChanged, "#optionID")
     def onStartPressed(self, event: Button.Pressed) ->None:
         selectionList = self.query_one("#optionID", SelectionList)
+        selectedIndices = selectionList.selected
+        
+
+
 
 
 
