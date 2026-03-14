@@ -11,7 +11,6 @@ class CommandPing(Command):
         self.ipv6 = False
         self.audible = False
         self.broadcast = False
-        self.packet_count = None
         self.flood = False
         self.interval = None
 
@@ -36,9 +35,6 @@ class CommandPing(Command):
 
         if self.broadcast:
             cmd.append("-b")
-        
-        if self.packet_count:
-            cmd.append(f"-s {self.packet_count}")
 
         if self.flood:
             cmd.append("-f")
