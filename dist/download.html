@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #05070a; font-family: sans-serif; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-white">
+    <div class="absolute w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="relative z-10 w-full max-w-3xl p-12 mx-4 text-center border border-white/10 rounded-3xl bg-white/5 backdrop-blur-xl shadow-2xl">
+        <h1 class="mb-4 text-6xl md:text-7xl tracking-tighter leading-[1.2] pb-4 text-transparent bg-clip-text drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+            style="background-image: radial-gradient(circle, #ffffff 30%, #8c8c8c 150%); filter: drop-shadow(0 0 40px rgba(54, 235, 226, 0.4));">
+            The interactive networking CLI.
+        </h1>
+        <p class="mb-10 text-lg text-gray-400">
+            Streamline networking development for Linux.
+        </p>
+        
+        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button class="flex items-center gap-3 px-8 py-3 font-semibold text-white transition-transform bg-[#289cad] rounded-xl hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+                <img src="https://cdn.simpleicons.org/linux/white" class="w-6 h-6" alt="Linux Logo">
+                <span>Download for Linux</span>
+            </button>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none -z-10 flex justify-center">
+    <img 
+        src="./hack_blue.avif" 
+        alt="Matrix Background"
+        id="matrixImg"
+        class="w-full max-w-[1200px] opacity-0 translate-y-20 transition-all duration-[2000ms] ease-out mask-gradient"
+        style="-webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); 
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);">
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            const img = document.getElementById('matrixImg');
+            img.classList.remove('opacity-0', 'translate-y-20');
+        });
+    </script>
+</body>
+</html>
