@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLI Download Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #05070a; font-family: sans-serif; }
+        body { 
+            background-color: #05070a; 
+            font-family: sans-serif; 
+            margin: 0; 
+            overflow: hidden;
+        }
+
+        /* mask to fade the animation out at the top/bottom */
+        #matrixCanvas {
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen text-white">
+    <canvas id="matrixCanvas" class="absolute top-0 left-0 w-full h-full -z-20 pointer-events-none opacity-30"></canvas>
+
     <div class="absolute w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    
     <div class="relative z-10 w-full max-w-3xl p-12 mx-4 text-center border border-white/10 rounded-3xl bg-white/5 backdrop-blur-xl shadow-2xl">
+    
         <h1 class="mb-4 text-6xl md:text-7xl tracking-tighter leading-[1.2] pb-4 text-transparent bg-clip-text drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
             style="background-image: radial-gradient(circle, #ffffff 30%, #8c8c8c 150%); filter: drop-shadow(0 0 40px rgba(54, 235, 226, 0.4));">
             The interactive networking CLI.
         </h1>
+    
         <p class="mb-10 text-lg text-gray-400">
             Streamline networking development for Linux.
         </p>
@@ -24,20 +43,52 @@
             </button>
         </div>
     </div>
-    <div class="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none -z-10 flex justify-center">
-    <img 
-        src="./hack_blue.avif" 
-        alt="Matrix Background"
-        id="matrixImg"
-        class="w-full max-w-[1200px] opacity-0 translate-y-20 transition-all duration-[2000ms] ease-out mask-gradient"
-        style="-webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); 
-            mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);">
-    </div>
+
     <script>
-        window.addEventListener('load', () => {
-            const img = document.getElementById('matrixImg');
-            img.classList.remove('opacity-0', 'translate-y-20');
-        });
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // set canvas size to full screen
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const characters = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const drops = Array.from({ length: Math.ceil(columns) }).map(() => Math.random() * -100);
+
+        function drawMatrix() {
+            // half-transparent background creates the trailing effect
+            ctx.fillStyle = "rgba(5, 7, 10, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // sets character color
+            ctx.fillStyle = "#0F0"; 
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                
+                // make some characters white for glisten
+                if (Math.random() > 0.98) ctx.fillStyle = "#FFF";
+                else ctx.fillStyle = "#0F0";
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // reset drops to the top when it reaches the bottom
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 40);
     </script>
 </body>
 </html>
