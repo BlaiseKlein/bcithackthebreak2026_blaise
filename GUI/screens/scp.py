@@ -73,7 +73,7 @@ class SPCScreen(Screen):
         options = []   
         for option in allOptions:
             if option["index"] in selectedOptions:
-                options.append(option[""])
+                options.append(option["label"])
             
         inputValues["options"] = options
         

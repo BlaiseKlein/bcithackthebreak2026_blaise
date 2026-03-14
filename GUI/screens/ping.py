@@ -4,36 +4,44 @@ from textual.widgets import Button, SelectionList, Header, Footer, Input, TextAr
 from textual.screen import Screen
 from textual.validation import Number
 from textual import on
+# from src.commands import cmd_ping
 
 class PingScreen(Screen):
+    CSS_PATH = "../css/ping.tcss"
+
     def compose(self) -> ComposeResult:
         yield Header()
-
-        yield Horizontal(
-            VerticalScroll(
-                SelectionList[int](
-                    ("IPV4 Toggle", 0, ),
-                    ("IPV6 Toggle", 1),
-                    ("Broadcast Toggle", 2),
-                    ("Flood Toggle", 3),
-                    ("Count", 4),
-                    ("Interval", 5),
-                    id="optionId"
-                ),
-                
-                Input(placeholder = "Dest IP Address"),
-                Input(placeholder = "Packet Count", validators=[Number()], disabled= True, id="countId"),
-                Input(placeholder = "Interval", validators=[Number()], disabled= True, id="intervalId"),
-            ),
-
-            VerticalScroll(
-                Button("Go to main Menu", id="menuBtn"),
-                Button("Submit", id="submitBtn"),
-                ),
-
-            TextArea("",id ="textArea")
+        with VerticalScroll(id="mainContainer"):
+            with Horizontal(id="searchBar"):
+                yield Input(placeholder = "Search", id="aiSearch")
             
-        )
+
+            with Horizontal(id ="content"):
+                    yield VerticalScroll(
+                        SelectionList[int](
+                            ("IPV4 Toggle", 0, ),
+                            ("IPV6 Toggle", 1),
+                            ("Broadcast Toggle", 2),
+                            ("Flood Toggle", 3),
+                            ("Count", 4),
+                            ("Interval", 5),
+                            ("Audible", 6),
+                            id="optionId"
+                        ),
+                        Input(placeholder = "Dest IP Address", id="destId"),
+                        Input(placeholder = "Packet Count", validators=[Number()], disabled= True, id="countId"),
+                        Input(placeholder = "Interval", validators=[Number()], disabled= True, id="intervalId"),
+                    )
+
+                    yield VerticalScroll(
+                        Button("Search", id="searchBtn"),
+                        Button("Main Menu", id="menuBtn"),
+                        Button("Submit", id="submitBtn"),
+                    )
+                    
+                    yield TextArea("",id ="textArea") 
+            
+        
         yield Footer()
 
     @on(Button.Pressed,"#menuBtn")
@@ -44,18 +52,19 @@ class PingScreen(Screen):
     def onListChanged(self, event: SelectionList.SelectedChanged) ->None:
         selectionList = self.query_one("#optionId", SelectionList)
         selectedIndices = selectionList.selected
-        self.query_one("#countId").disabled = 5 not in selectedIndices
-        self.query_one("#intervalId").disabled = 6 not in selectedIndices
+        self.query_one("#countId").disabled = 4 not in selectedIndices
+        self.query_one("#intervalId").disabled = 5 not in selectedIndices
 
     @on(Button.Pressed, "#submitBtn")
     def onSubmit(self, event: Button.Pressed)-> None:
         allOptions = [
-        {"index": 0, "label": "IPV4 Toggle"},
-        {"index": 1, "label": "IPV6 Toggle"},
-        {"index": 2, "label": "Broadcast Toggle"},
-        {"index": 3, "label": "Flood Toggle"},
+        {"index": 0, "label": "IPV4"},
+        {"index": 1, "label": "IPV6"},
+        {"index": 2, "label": "Broadcast"},
+        {"index": 3, "label": "Flood"},
         {"index": 4, "label": "Count"},
         {"index": 5, "label": "Interval"},
+        {"index": 6, "label": "Audible"},
         ]
 
         inputValues = {
@@ -78,21 +87,10 @@ class PingScreen(Screen):
         textArea = self.query_one("#textArea", TextArea)
         textArea.text = inputStr
 
+    @on(Button.Pressed, "#searchBtn")
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        self.app.push_screen("aiScreen")
+
+        
 
 
-
-
-# class IPAddressValid(Validator):
-#         def validate(self, value:str)->ValidationResult:
-#             if self.isIpAddr(value):
-#                 return self.success()
-#             else:
-#                 return self.failure("Is not a IP addr")
-
-#         def isIpAddr(self, ip: str) -> bool:
-#             try:
-#                 ipaddress.ip_address(ip)
-#                 return True
-#             except ValueError:
-#                 return False
-    
