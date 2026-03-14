@@ -1,5 +1,6 @@
 from .cmd_abc import Command
 from executor import execute
+import ipaddress
 
 class CommandPing(Command):
 
@@ -13,6 +14,14 @@ class CommandPing(Command):
         self.broadcast = False
         self.flood = False
         self.interval = None
+
+    def parse(self, ui_dict):
+        self.dest_ip = ui_dict.get('destId')
+        self.count = ui_dict.get('countId')
+        self.interval = ui_dict.get('intervalId')
+        self.ipv4 = "IPv4 Toggle" in ui_dict.get('options')
+        
+
 
     def build_cmd(self):
 
