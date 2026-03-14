@@ -26,5 +26,5 @@ class MainMenuScreen(Screen):
         self.app.push_screen("scpScreen")
 
     @on(Button.Pressed,"#aiBtn")
-    def go_to_scp(self, event: Button.Pressed) -> None:
+    def go_to_ai(self, event: Button.Pressed) -> None:
         self.app.push_screen("aiScreen")

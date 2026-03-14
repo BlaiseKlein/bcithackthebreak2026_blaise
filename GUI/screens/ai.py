@@ -3,13 +3,18 @@ from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Button, Header, Footer, TextArea, Static
 from textual.screen import Screen
 from textual import on
+from src.openai_service import get_ai_bot_response
 
 class AIScreen(Screen):
+    def __init__(self, initial_text: str = ""):
+        super().__init__()
+        self.initial_text = initial_text
+
     def compose(self) -> ComposeResult:
         yield Header()
         yield VerticalScroll(
                 Static("Input Log"),
-                TextArea("",id ="inputText") ,
+                TextArea(self.initial_text,id ="inputText") ,
                 Static("Output Log"),
                 TextArea("",id ="outputText") ,
                 Button("Ask", id="aiBtn"), 
@@ -20,8 +25,10 @@ class AIScreen(Screen):
     @on(Button.Pressed, "#aiBtn")
     def submitPrompt(self, event: Button.Pressed) -> None:
         inputArea = self.query_one("#inputText")
-
+        output = get_ai_bot_response(inputArea.text)
         outputArea = self.query_one("#outputText")
+        outputArea.text = output
+
     
     @on(Button.Pressed,"#returnBtn")
     def on_button_pressed(self, event: Button.Pressed) -> None:

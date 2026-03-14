@@ -4,7 +4,7 @@ from textual.widgets import Button, SelectionList, Header, Footer, Input, TextAr
 from textual.screen import Screen
 from textual.validation import Number
 from textual import on
-# from src.commands import cmd_ping
+from screens.ai import AIScreen
 
 class PingScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
@@ -88,8 +88,9 @@ class PingScreen(Screen):
         textArea.text = inputStr
 
     @on(Button.Pressed, "#searchBtn")
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        self.app.push_screen("aiScreen")
+    def onSearch(self, event: Button.Pressed) -> None:
+        search_value = self.query_one("#aiSearch", Input).value
+        self.app.push_screen(AIScreen(initial_text=search_value))
 
         
 
