@@ -1,11 +1,12 @@
-from commands.cmd_abc import Command
+from .cmd_abc import Command
+from executor import execute
 
 class CommandPing(Command):
 
-    #!!! To be fixed once textual is linked
-    def __init__(self, dest_ip, count, ipv4, ipv6, audible, broadcast, packet_count, flood, interval):
-        self.dest_ip = None
-        self.count = None
+    #!!! To be fixed once textual is linked (needs all parameters for object creation)
+    def __init__(self):
+        self.dest_ip = "142.251.142.206"
+        self.count = 5
         self.ipv4 = True
         self.ipv6 = False
         self.audible = False
@@ -15,7 +16,8 @@ class CommandPing(Command):
         self.interval = None
 
     def build_cmd(self):
-        cmd = ["ping"]
+
+        cmd=[]
 
         if self.dest_ip:
             cmd.append(self.dest_ip)
@@ -32,7 +34,7 @@ class CommandPing(Command):
         if self.audible:
             cmd.append("-a")
 
-        if self.broacast:
+        if self.broadcast:
             cmd.append("-b")
         
         if self.packet_count:
@@ -43,5 +45,15 @@ class CommandPing(Command):
         
         if self.interval:
             cmd.append(f"-i {self.interval}")
-        
+
+        return cmd
     
+    def run_cmd(self):
+        cmd = self.build_cmd()
+        execute("ping", cmd, print)
+    
+
+# To test
+if __name__ == "__main__":
+   ping = CommandPing() 
+   CommandPing.run_cmd(ping)
