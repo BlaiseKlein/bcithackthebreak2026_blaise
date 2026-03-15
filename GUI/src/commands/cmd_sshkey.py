@@ -35,31 +35,31 @@ class SshKeygenCommand(Command):
 
         if self.filename:
             cmd.append(f"-f")
-            cmd.append(f"{self.filename}")
+            cmd.append(self.filename)
 
         if self.passphrase:
             cmd.append(f"-N")
-            cmd.append(f"{self.passphrase}")
+            cmd.append(self.passphrase)
         else:
             cmd.append(f"-N")
             cmd.append("''")
 
         if self.comment:
             cmd.append(f"-C")
-            cmd.append(f"{self.comment}")
+            cmd.append(self.comment)
 
         if self.bits:
             cmd.append(f"-b")
-            cmd.append(f" {self.bits}")
+            cmd.append(self.bits)
 
         if self.type:
             cmd.append(f"-t")
-            cmd.append(f" {self.type}")
+            cmd.append(self.type)
 
         return cmd
 
     async def run_cmd(self):
         cmd = self.build_cmd()
-        return cmd
+        # return ["ssh-keygen"] + cmd
         execute_return = await execute("ssh-keygen", cmd, print)
         return execute_return

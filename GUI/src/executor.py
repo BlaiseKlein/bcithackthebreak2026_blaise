@@ -12,9 +12,11 @@ async def execute(command, parameters, callback, postparameters = None):
     stringOut = "Nothing happened"
 
     try:
-        completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
+        completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+
         if postparameters:
             completed.stdin.write(postparameters.encode())
+
         try:
             completed.wait(timeout=3)
         except subprocess.TimeoutExpired:
@@ -44,4 +46,4 @@ async def execute(command, parameters, callback, postparameters = None):
 
 # To test, change the command and parameters and run this python file
 if __name__ == "__main__":
-    execute("cat", [], print, "hello")
+    execute("cat", ['-f', 'anotherTest', '-N', "''"], print, "hello")

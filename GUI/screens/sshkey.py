@@ -56,15 +56,15 @@ class SSHKeyScreen(Screen):
             inputValues["options"] = {"typeId": selectedOptions}
 
 
-        ping = SshKeygenCommand()
+        sshCmd = SshKeygenCommand()
 
-        ping.parse(inputValues)
+        sshCmd.parse(inputValues)
 
         outputText = ""
 
         try:
-            ping.validate_params()
-            outputText = await ping.run_cmd()
+            sshCmd.validate_params()
+            outputText = await sshCmd.run_cmd()
         except ValueError as e:
             outputText = e
 
