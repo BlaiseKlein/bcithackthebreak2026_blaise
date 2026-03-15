@@ -8,7 +8,7 @@ import signal
 # param - command: the command to execute
 # param - parameters: a list of the parameters for the command, may be empty
 # param - callback: a function that takes a single string as input, called with the resulting output
-def execute(command, parameters, callback, postparameters = None):
+async def execute(command, parameters, callback, postparameters = None):
     stringOut = "Nothing happened"
 
     try:
@@ -18,6 +18,7 @@ def execute(command, parameters, callback, postparameters = None):
         try:
             completed.wait(timeout=3)
         except subprocess.TimeoutExpired:
+            completed.send_signal(sig=signal.SIGINT)
             out, err = completed.communicate()
             if len(err) == 0:
                 callback(out.decode("utf-8"))
@@ -25,14 +26,16 @@ def execute(command, parameters, callback, postparameters = None):
             else:
                 callback(err.decode("utf-8"))
                 stringOut = err.decode("utf-8")
-            completed.send_signal(sig=signal.SIGINT)
             return stringOut
 
         out, err = completed.communicate()
         if len(err) == 0:
             callback(out.decode("utf-8"))
+            stringOut = out.decode("utf-8")
         else:
             callback(err.decode("utf-8"))
+            stringOut = err.decode("utf-8")
+        return stringOut
     except CalledProcessError as e:
         callback(e.stderr.decode("utf-8"))
         return e.stderr.decode("utf-8")

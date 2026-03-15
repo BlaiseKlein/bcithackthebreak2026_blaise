@@ -1,4 +1,5 @@
 from .cmd_abc import Command
+from src.executor import execute
 
 # TODO: Incomplete, will fail if tested. Finish implementation after executor is updated to take password
 class CommandSCP(Command):
@@ -26,19 +27,37 @@ class CommandSCP(Command):
         # Required fields for all options:
 
         # Local file (directory if -r) to copy
-        self.file = "~/temp/temp.txt"
+        self.file = None
 
         # Target machine username
-        self.target_username = "user"
+        self.target_username = None
 
         # Target machine host
-        self.target_host = "192.168.0.1"
+        self.target_host = None
 
         # Target directory
-        self.target_directory = "~/temp"
+        self.target_directory = None
 
         # Target machine user password
-        self.target_password = "123"
+        self.target_password = None
+
+    def parse(self, ui_dict):
+        self.file = ui_dict.get('file')
+        self.target_username = ui_dict.get('user')
+        self.target_host = ui_dict.get('ip')
+        self.target_directory = ui_dict.get('directory')
+        self.target_password = ui_dict.get('passwpr')
+
+        self.compress = "Compression" in ui_dict.get('options')
+        self.verbose = "Verbose" in ui_dict.get('options')
+
+        if ("Port" in ui_dict.get('options')):
+            self.port = ui_dict.get('portId')
+        if ("Bandwidth" in ui_dict.get('options')):
+            self.limit_bandwidth = ui_dict.get('bandwidthId')
+        if ("Private Key" in ui_dict.get('options')):
+            self.authenticate_with_private_key = ui_dict.get('privateKeyId')
+        
 
     def build_cmd(self):
         cmd = []
@@ -58,29 +77,29 @@ class CommandSCP(Command):
         if self.verbose:
             cmd.append("-v")
 
-        if self.l:
+        if self.limit_bandwidth:
             cmd.append(f"-l {self.limit_bandwidth}")
 
         # Required fields for all options:
 
         if self.file:
-            cmd.append(self.append(file))
-        elif:
+            cmd.append(self.file)
+        else:
             return "Missing file or directory!"
 
         if self.target_username:
-            cmd.append(self.append(target_username))
-        elif:
+            cmd.append(self.target_username)
+        else:
             return "Missing username on target machine!"
 
         if self.target_host:
-            cmd.append(self.append(target_host))
-        elif:
+            cmd.append(self.target_host)
+        else:
             return "Missing hostname/IP of target machine!"
 
         if self.target_directory:
-            cmd.append(self.append(target_directory))
-        elif:
+            cmd.append(self.target_directory)
+        else:
             return "Missing directory on target machine!"
 
         # TODO: pass as separate attribute for executor
@@ -90,8 +109,12 @@ class CommandSCP(Command):
         #     return "Missing directory on target machine!"
 
         return cmd
+    async def run_cmd(self):
+        cmd = self.build_cmd()
+        execute_return = await execute("scp", cmd, print, self.target_password)
+        return execute_return
 
-if __name__ == "__main__":
-   scp = CommandSCP()
-   CommandSCP.run_cmd(scp, "scp", scp.target_password)
+# if __name__ == "__main__":
+#    scp = CommandSCP()
+#    CommandSCP.run_cmd(scp, "scp", scp.target_password)
    

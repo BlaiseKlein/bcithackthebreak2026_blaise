@@ -4,6 +4,7 @@ from textual.widgets import Button, Header, Footer, Input, SelectionList, TextAr
 from textual.screen import Screen
 from textual import on
 from screens.ai import AIScreen
+from src.commands.cmd_scp import CommandSCP
 
 class SPCScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
@@ -30,7 +31,7 @@ class SPCScreen(Screen):
                         Input(placeholder = "Username",id="user"),
                         Input(placeholder = "IP",id="ip"),
                         Input(placeholder = "Target Directory",id="directory"),
-                        Input(placeholder = "Target Machine Password",id="passwpr"),
+                        Input(placeholder = "Target Password",id="passwpr", password=True),
                         Input(placeholder = "Port", disabled=True, id="portId"),
                         Input(placeholder = "Bandwidth Limit", disabled=True, id="bandwidthId"),
                         Input(placeholder = "Private Key", disabled=True, id="privateKeyId")
@@ -60,7 +61,7 @@ class SPCScreen(Screen):
         self.query_one("#privateKeyId").disabled = 5 not in selectedIndices
     
     @on(Button.Pressed, "#submitBtn")
-    def onSubmit(self, event: Button.Pressed)-> None:
+    async def onSubmit(self, event: Button.Pressed)-> None:
         allOptions = [
         {"index": 0, "label": "Port"},
         {"index": 1, "label": "Bandwidth"},
@@ -86,6 +87,17 @@ class SPCScreen(Screen):
         inputValues["options"] = options
         
         inputStr = str(inputValues)
+
+        scp = CommandSCP()
+
+        scp.parse(inputValues)
+
+        outputText = ""
+
+        try:
+            outputText = await scp.run_cmd()
+        except ValueError as e:
+            outputText = str(e)
 
         textArea = self.query_one("#textArea", TextArea)
         textArea.text = inputStr
