@@ -47,19 +47,21 @@ class CommandCurl(Command):
         cmd.append("-s")
 
         if self.save_file_with_remote_name:
-            cmd.append("-O")
+            cmd.append(f"-O")
         
         if self.follow_redirects:
-            cmd.append("-L")
+            cmd.append(f"-L")
 
         if self.fetch_http_headers_only:
-            cmd.append("-I")
+            cmd.append(f"-I")
         
         if self.send_post_request and self.send_post_request_data:
-            cmd.append(f"-d {self.send_post_request_data}")
+            cmd.append(f"-d")
+            cmd.append(f"{self.send_post_request_data}")
         
         if self.server_authentication and self.user and self.password:
-            cmd.append(f"-u {self.user}:{self.password}")
+            cmd.append("-u")
+            cmd.append(f"{self.user}:{self.password}")
 
         # Required fields for all options:
 

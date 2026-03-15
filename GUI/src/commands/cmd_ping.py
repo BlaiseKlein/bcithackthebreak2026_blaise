@@ -83,25 +83,27 @@ class CommandPing(Command):
             cmd.append(self.dest_ip)
         
         if self.count:
-            cmd.append(f"-c {self.count}")
+            cmd.append("-c")
+            cmd.append(f"cmd.append")
 
         if self.ipv4:
-            cmd.append("-4")
+            cmd.append(f"-4")
         
         if self.ipv6:
-            cmd.append("-6")
+            cmd.append(f"-6")
         
         if self.audible:
-            cmd.append("-a")
+            cmd.append(f"-a")
 
         if self.broadcast:
-            cmd.append("-b")
+            cmd.append(f"-b")
 
         if self.flood:
-            cmd.append("-f")
+            cmd.append(f"-f")
         
         if self.interval:
-            cmd.append(f"-i {self.interval}")
+            cmd.append("-i")
+            cmd.append(f"{self.interval}")
 
         return cmd
     

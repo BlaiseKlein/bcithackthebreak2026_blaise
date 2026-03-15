@@ -64,22 +64,25 @@ class CommandSCP(Command):
         cmd = []
 
         if self.recursive_copy:
-            cmd.append("-r")
+            cmd.append(f"-r")
         
         if self.port:
-            cmd.append(f"-P {self.port}")
+            cmd.append(f"-P")
+            cmd.append(f"{self.port}")
 
         if self.authenticate_with_private_key:
-            cmd.append(f"-i {self.authenticate_with_private_key}")
+            cmd.append(f"-i")
+            cmd.append(f"{self.authenticate_with_private_key}")
         
         if self.compress:
-            cmd.append("-C")
+            cmd.append(f"-C")
         
         if self.verbose:
-            cmd.append("-v")
+            cmd.append(f"-v")
 
         if self.limit_bandwidth:
-            cmd.append(f"-l {self.limit_bandwidth}")
+            cmd.append(f"-l")
+            cmd.append(f"{self.limit_bandwidth}")
 
         # Required fields for all options:
         cmd.append("-o StrictHostKeyChecking=no")
