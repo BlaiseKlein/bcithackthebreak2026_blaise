@@ -17,6 +17,7 @@ class MainMenuScreen(Screen):
                 Static("SELECT A TOOL", classes="section-header"),
                 Button("Ping", id="pingBtn"),
                 Button("SCP", id="scpBtn"),
+                Button("SSH Keygen", id="sshkeyBtn"),
                 Button("Curl", id="curlBtn"),
                 Button("Profile", id="profileBtn"),
                 Button("AI Helper", id="aiBtn"),
@@ -25,7 +26,7 @@ class MainMenuScreen(Screen):
             classes="menu-container"
         )
         yield Footer()
-    
+
     @on(Button.Pressed,"#pingBtn")
     def go_to_ping(self, event: Button.Pressed) -> None:
         self.app.push_screen("pingScreen")
@@ -33,6 +34,10 @@ class MainMenuScreen(Screen):
     @on(Button.Pressed,"#scpBtn")
     def go_to_scp(self, event: Button.Pressed) -> None:
         self.app.push_screen("scpScreen")
+
+    @on(Button.Pressed, "#sshkeyBtn")
+    def go_to_scp(self, event: Button.Pressed) -> None:
+        self.app.push_screen("sshkeyScreen")
 
     @on(Button.Pressed,"#aiBtn")
     def go_to_ai(self, event: Button.Pressed) -> None:

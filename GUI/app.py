@@ -1,4 +1,6 @@
 from textual.app import App
+
+from screens.sshkey import SSHKeyScreen
 from screens.menu import MainMenuScreen
 from screens.ping import PingScreen
 from screens.scp import SPCScreen
@@ -13,6 +15,7 @@ class Menu(App[str]):
         "pingScreen": PingScreen,
         "aiScreen": AIScreen,
         "scpScreen": SPCScreen,
+        "sshkeyScreen": SSHKeyScreen,
         "curlScreen": CurlScreen,
         "profileScreen": ProfileScreen,
     }
