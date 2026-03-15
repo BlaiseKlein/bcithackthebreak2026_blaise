@@ -6,32 +6,45 @@ Insert description
 ## Features
 
 ## Supported Tools
+- 
 
-## Build
+## Setting up the environment
 
 ### Requirements
 
 - Linux system
 
-### Compile the project
-
-Clone the repository:
+### Clone the repository:
 
 $ git clone https://github.com/BlaiseKlein/bcithackthebreak2026_blaise.git
 
-Navigate into the directory:
+### Navigate into the directory:
 
 $ cd bcithackthebreak2026_blaise
 
-Build the executable:
+### Quick Setup and Execution
+
+./setup.sh
+
+### Set up the virtual environment:
 
 $ make build
 
-This will generate the executable in /dist:
+## Running the program
 
-./CLI NAME
+### Enter venv:
 
-## Run the program:
+$ source venv/bin/activate
 
-$ ./CLI NAME
+### Change directory to GUI:
+
+$ cd GUI
+
+### Run the program:
+
+$ python3 app.py
+
+### Exit the program:
+
+CTRL + Qv
 
