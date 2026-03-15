@@ -19,7 +19,9 @@ mdit-py-plugins==0.5.0
 mdurl==0.1.2
 openai==2.28.0
 packaging==26.0
+pexpect==4.9.0
 platformdirs==4.9.4
+ptyprocess==0.7.0
 pyasn1==0.6.2
 pyasn1_modules==0.4.2
 pycparser==3.0
