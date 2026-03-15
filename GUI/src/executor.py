@@ -3,12 +3,11 @@ from time import sleep
 from subprocess import CalledProcessError, PIPE
 import signal
 
-
 # Executes a command with given paremeters and prints according to a callback function
 # param - command: the command to execute
 # param - parameters: a list of the parameters for the command, may be empty
 # param - callback: a function that takes a single string as input, called with the resulting output
-async def execute(command, parameters, callback, postparameters = None):
+async def execute(command, parameters, callback, postparameters = None, timeoutParam = 20):
     stringOut = "Nothing happened"
 
     try:
@@ -18,7 +17,7 @@ async def execute(command, parameters, callback, postparameters = None):
             completed.stdin.write(postparameters.encode())
 
         try:
-            completed.wait(timeout=3)
+            completed.wait(timeout=timeoutParam)
         except subprocess.TimeoutExpired:
             completed.send_signal(sig=signal.SIGINT)
             out, err = completed.communicate()

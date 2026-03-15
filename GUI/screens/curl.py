@@ -2,14 +2,13 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Button, SelectionList, Header, Footer, Input, TextArea, Static
 from textual.screen import Screen
-from textual.validation import Number
 from textual import on
 from screens.ai import AIScreen
-from src.commands.cmd_ping import CommandPing
+from src.commands.cmd_curl import CommandCurl
 
-class PingScreen(Screen):
+class CurlScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
-    TITLE = "PING"
+    TITLE = "CURL"
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -22,18 +21,17 @@ class PingScreen(Screen):
             with Horizontal(id ="content"):
                     yield VerticalScroll(
                         SelectionList[int](
-                            ("IPV4 Toggle", 0, ),
-                            ("IPV6 Toggle", 1),
-                            ("Broadcast Toggle", 2),
-                            ("Flood Toggle", 3),
-                            ("Count", 4),
-                            ("Interval", 5),
-                            ("Audible", 6),
+                            ("Save File", 0, ),
+                            ("Follow Redirect", 1),
+                            ("HTTP Header Only", 2),
+                            ("POST", 3),
+                            ("Server Auth", 4),
                             id="optionId"
                         ),
-                        Input(placeholder = "Dest IP Address", id="destId"),
-                        Input(placeholder = "Packet Count", validators=[Number()], disabled= True, id="countId"),
-                        Input(placeholder = "Interval", validators=[Number()], disabled= True, id="intervalId"),
+                        Input(placeholder = "URL", id="urlId"),
+                        Input(placeholder = "Data to send", disabled= True, id="postId"),
+                        Input(placeholder = "UserName", disabled= True, id="userId"),
+                        Input(placeholder = "Password", disabled= True, id="passwordId"),
                         id="optionsPanel"
                     )
 
@@ -57,19 +55,18 @@ class PingScreen(Screen):
     def onListChanged(self, event: SelectionList.SelectedChanged) ->None:
         selectionList = self.query_one("#optionId", SelectionList)
         selectedIndices = selectionList.selected
-        self.query_one("#countId").disabled = 4 not in selectedIndices
-        self.query_one("#intervalId").disabled = 5 not in selectedIndices
+        self.query_one("#postId").disabled = 3 not in selectedIndices
+        self.query_one("#userId").disabled = 4 not in selectedIndices
+        self.query_one("#passwordId").disabled = 4 not in selectedIndices
 
     @on(Button.Pressed, "#submitBtn")
     async def onSubmit(self, event: Button.Pressed)-> None:
         allOptions = [
-        {"index": 0, "label": "IPV4"},
-        {"index": 1, "label": "IPV6"},
-        {"index": 2, "label": "Broadcast"},
-        {"index": 3, "label": "Flood"},
-        {"index": 4, "label": "Count"},
-        {"index": 5, "label": "Interval"},
-        {"index": 6, "label": "Audible"},
+        {"index": 0, "label": "Save File"},
+        {"index": 1, "label": "Follow Redirect"},
+        {"index": 2, "label": "HTTP Header Only"},
+        {"index": 3, "label": "POST"},
+        {"index": 4, "label": "Server Auth"},
         ]
 
         inputValues = {
@@ -87,15 +84,15 @@ class PingScreen(Screen):
             
         inputValues["options"] = options
         
-        ping = CommandPing()
-
-        ping.parse(inputValues)
+        curl = CommandCurl()
+        curl.parse(inputValues)
 
         outputText = ""
-
+        
         try:
-            ping.validate_params()
-            outputText = await ping.run_cmd()
+            outputText = await curl.run_cmd()
+            if "Save File" in inputValues.get("options") and len(inputValues.get("options")) == 1:
+                outputText = "File Saved!"
         except ValueError as e:
             outputText = str(e)
 
@@ -106,3 +103,8 @@ class PingScreen(Screen):
     def onSearch(self, event: Button.Pressed) -> None:
         search_value = self.query_one("#aiSearch", Input).value
         self.app.push_screen(AIScreen(initial_text=search_value))
+        
+
+        
+
+
