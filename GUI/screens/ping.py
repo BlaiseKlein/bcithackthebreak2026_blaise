@@ -15,6 +15,7 @@ class PingScreen(Screen):
         with VerticalScroll(id="mainContainer"):
             with Horizontal(id="searchBar"):
                 yield Input(placeholder = "Search", id="aiSearch")
+                yield Button("Search", id="searchBtn")
             
 
             with Horizontal(id ="content"):
@@ -32,12 +33,13 @@ class PingScreen(Screen):
                         Input(placeholder = "Dest IP Address", id="destId"),
                         Input(placeholder = "Packet Count", validators=[Number()], disabled= True, id="countId"),
                         Input(placeholder = "Interval", validators=[Number()], disabled= True, id="intervalId"),
+                        id="optionsPanel"
                     )
 
                     yield VerticalScroll(
-                        Button("Search", id="searchBtn"),
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
+                        id="buttonsPanel"
                     )
                     
                     yield TextArea("",id ="textArea") 
