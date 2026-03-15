@@ -3,7 +3,7 @@ from textual.containers import Horizontal, VerticalScroll
 from textual.widgets import Button, Header, Footer, TextArea, Static, ProgressBar
 from textual.screen import Screen
 from textual import on
-from src.openai_service import get_ai_bot_response
+from src.genai_service import get_ai_bot_response
 
 class AIScreen(Screen):
     CSS_PATH = "../css/ping.tcss"

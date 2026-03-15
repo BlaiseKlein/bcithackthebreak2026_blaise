@@ -22,7 +22,7 @@ class SPCScreen(Screen):
                         SelectionList[int](
                                 ("Port", 0),
                                 ("Limit Bandwidth", 1),
-                                ("ompression", 2),
+                                ("Compression", 2),
                                 ("Copy Subdirectories", 3),
                                 ("Verbose", 4),
                                 ("Private Key", 5),
