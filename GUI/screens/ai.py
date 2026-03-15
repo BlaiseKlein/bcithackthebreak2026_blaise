@@ -18,7 +18,7 @@ class AIScreen(Screen):
                 Static("Input Log"),
                 TextArea(self.initial_text,id ="inputText") ,
                 Static("Output Log"),
-                TextArea("",id ="outputText") ,
+                TextArea("",id ="outputText", read_only=True) ,
                 Button("Ask", id="aiBtn"), 
                 Button("Return", id="returnBtn") 
             )

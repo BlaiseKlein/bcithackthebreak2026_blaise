@@ -44,7 +44,7 @@ class PingScreen(Screen):
                         id="buttonsPanel"
                     )
                     
-                    yield TextArea("",id ="textArea") 
+                    yield TextArea("",id ="textArea", read_only=True) 
             
         
         yield Footer()

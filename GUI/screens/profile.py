@@ -26,7 +26,7 @@ class ProfileScreen(Screen):
                 )
                 
                 yield VerticalScroll(
-                    TextArea("", id="profileText"),
+                    TextArea("", id="profileText", read_only=True),
                     id="textArea"
                 )
         

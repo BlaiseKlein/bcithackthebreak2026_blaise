@@ -31,7 +31,7 @@ class SPCScreen(Screen):
                         ),
                         Input(placeholder = "Filename",id="file"),
                         Input(placeholder = "Username",id="user"),
-                        Input(placeholder = "IP",id="ip"),
+                        Input(placeholder = "Target IP",id="ip"),
                         Input(placeholder = "Target Directory",id="directory"),
                         Input(placeholder = "Target Password",id="passwpr", password=True),
                         Input(placeholder = "Port", disabled=True, id="portId"),
@@ -44,10 +44,11 @@ class SPCScreen(Screen):
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
                         Static("WARNING\nCommands May Take Time to Load", id ="warning"),
+                        Static("WARNING\nMake Sure Firewalls Allow SCP", id ="warning"),
                         id="buttonsPanel"
                     )
                     
-                    yield TextArea("",id ="textArea") 
+                    yield TextArea("",id ="textArea", read_only=True) 
             
         
         yield Footer()
