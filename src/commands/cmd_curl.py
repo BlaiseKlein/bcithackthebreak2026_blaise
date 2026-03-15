@@ -47,14 +47,14 @@ class CommandCurl(Command):
 
         if self.url:
             cmd.append(self.append(url))
-        elif:
+        else:
             return "Missing URL!"
 
         return cmd
 
-    # def run_cmd(self):
-    #     cmd = self.build_cmd()
-    #     execute("scp", cmd, print)
+    def run_cmd(self):
+        cmd = self.build_cmd()
+        execute("scp", cmd, print)
     
 
 if __name__ == "__main__":
