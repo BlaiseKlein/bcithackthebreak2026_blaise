@@ -82,26 +82,14 @@ class CommandSCP(Command):
 
         # Required fields for all options:
 
-        if self.file:
-            cmd.append(self.file)
-        else:
-            return "Missing file or directory!"
+        if not all([self.file, self.target_username, self.target_host, self.target_directory]):
+            return "Missing required fields!"
 
-        if self.target_username:
-            cmd.append(self.target_username)
-        else:
-            return "Missing username on target machine!"
-
-        if self.target_host:
-            cmd.append(self.target_host)
-        else:
-            return "Missing hostname/IP of target machine!"
-
-        if self.target_directory:
-            cmd.append(self.target_directory)
-        else:
-            return "Missing directory on target machine!"
-
+        cmd.append(self.file)
+        
+        destination = f"{self.target_username}@{self.target_host}:{self.target_directory}"
+        cmd.append(destination)
+        
         # TODO: pass as separate attribute for executor
         # if self.target_password:
         #     cmd.append(self.append(target_directory))
