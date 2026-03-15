@@ -45,11 +45,6 @@ class CommandCurl(Command):
         cmd = []
 
         cmd.append("-s")
-        
-        if self.url:
-            cmd.append(self.url)
-        else:
-            return "Missing URL!"
 
         if self.save_file_with_remote_name:
             cmd.append("-O")
@@ -67,6 +62,11 @@ class CommandCurl(Command):
             cmd.append(f"-u {self.user}:{self.password}")
 
         # Required fields for all options:
+
+        if self.url:
+            cmd.append(self.url)
+        else:
+            return "Missing URL!"
 
         return cmd
 
