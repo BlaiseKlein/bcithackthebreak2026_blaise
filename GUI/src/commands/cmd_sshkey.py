@@ -19,15 +19,15 @@ class SshKeygenCommand(Command):
         self.type = ui_dict.get("typeId")
 
     def validate_params(self):
-        if "/" in self.filename:
-            raise TypeError("Filename must have no forward slashes")
+        # if "/" in self.filename:
+        #     raise TypeError("Filename must have no forward slashes")
 
         if self.bits is not None:
             try:
                 count = int(self.bits)
             except TypeError:
                 raise TypeError("Bits must be an integer input")
-            if self.bits < 768 or self.bits > 2048:
+            if int(self.bits) < 768 or int(self.bits) > 2048:
                 raise ValueError("Bits must be within the range of 786-2048")
 
         if self.type == False or self.filename == None:
