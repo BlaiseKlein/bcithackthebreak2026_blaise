@@ -14,7 +14,9 @@ async def execute(command, parameters, callback, postparameters = None):
     try:
         completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         if postparameters:
-            completed.stdin.write(postparameters.encode())
+            for parameter in postparameters:
+                completed.stdin.write(postparameters.encode())
+                sleep(0.5)
         try:
             completed.wait(timeout=3)
         except subprocess.TimeoutExpired:
