@@ -30,6 +30,9 @@ class SshKeygenCommand(Command):
             if self.bits < 768 or self.bits > 2048:
                 raise ValueError("Bits must be within the range of 786-2048")
 
+        if self.type == False or self.filename == None:
+            raise ValueError("Filename and type are required")
+
     def build_cmd(self):
         cmd=[]
 
