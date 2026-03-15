@@ -102,7 +102,3 @@ class PingScreen(Screen):
     def onSearch(self, event: Button.Pressed) -> None:
         search_value = self.query_one("#aiSearch", Input).value
         self.app.push_screen(AIScreen(initial_text=search_value))
-
-        
-
-
