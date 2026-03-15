@@ -10,7 +10,7 @@ from src.commands.cmd_sshkey import SshKeygenCommand
 class SSHKeyScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
-        options = [("rsa1", 1), ("rsa", 2), ("dsa", 3)]
+        options = [("rsa1", "rsa1"), ("rsa", "rsa"), ("dsa", "dsa")]
         with VerticalScroll(id="mainContainer"):
             with Horizontal(id="searchBar"):
                 yield Input(placeholder="Search", id="aiSearch")

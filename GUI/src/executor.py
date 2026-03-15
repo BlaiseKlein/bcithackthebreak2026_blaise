@@ -12,7 +12,7 @@ async def execute(command, parameters, callback, postparameters = None):
     stringOut = "Nothing happened"
 
     try:
-        completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         if postparameters:
             completed.stdin.write(postparameters.encode())
         try:
