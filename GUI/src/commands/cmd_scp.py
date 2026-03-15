@@ -99,7 +99,9 @@ class CommandSCP(Command):
         return cmd
     async def run_cmd(self):
         cmd = self.build_cmd()
-        execute_return = await execute("scp", cmd, print, self.target_password)
+        execute_return = await execute("scp", cmd, print, ["yes", self.target_password])
+        if "yes/no/[fingerprint]" in execute_return:
+            execute_return = await execute("scp", cmd, print, [self.target_password])
         return execute_return
 
 # if __name__ == "__main__":
