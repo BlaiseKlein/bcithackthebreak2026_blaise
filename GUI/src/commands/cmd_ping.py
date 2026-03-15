@@ -84,7 +84,7 @@ class CommandPing(Command):
         
         if self.count:
             cmd.append("-c")
-            cmd.append(f"cmd.append")
+            cmd.append(f"{self.count}")
 
         if self.ipv4:
             cmd.append(f"-4")
