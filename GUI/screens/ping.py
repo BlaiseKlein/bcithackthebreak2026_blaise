@@ -93,7 +93,7 @@ class PingScreen(Screen):
             ping.validate_params()
             outputText = await ping.run_cmd()
         except ValueError as e:
-            outputText = e
+            outputText = str(e)
 
         textArea = self.query_one("#textArea", TextArea)
         textArea.text = outputText
