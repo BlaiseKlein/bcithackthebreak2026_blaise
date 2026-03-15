@@ -36,7 +36,7 @@ class MainMenuScreen(Screen):
         self.app.push_screen("scpScreen")
 
     @on(Button.Pressed, "#sshkeyBtn")
-    def go_to_scp(self, event: Button.Pressed) -> None:
+    def go_to_sshKey(self, event: Button.Pressed) -> None:
         self.app.push_screen("sshkeyScreen")
 
     @on(Button.Pressed,"#aiBtn")

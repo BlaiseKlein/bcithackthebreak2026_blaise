@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, TextArea, Header, Footer, Input, Select, RadioButton
+from textual.widgets import Button, TextArea, Header, Footer, Input, Select, RadioButton, Static
 from textual.screen import Screen
 from textual.validation import Number
 from textual import on
@@ -8,12 +8,17 @@ from screens.ai import AIScreen
 from src.commands.cmd_sshkey import SshKeygenCommand
 
 class SSHKeyScreen(Screen):
+    CSS_PATH = "../css/ping.tcss"
+    TITLE = "SSHKEYMANAGER"
     def compose(self) -> ComposeResult:
         yield Header()
         options = [("rsa1", "rsa1"), ("rsa", "rsa"), ("dsa", "dsa")]
         with VerticalScroll(id="mainContainer"):
+
             with Horizontal(id="searchBar"):
                 yield Input(placeholder="Search", id="aiSearch")
+                yield Button("Search", id="searchBtn")
+
             with Horizontal(id="content"):
                 yield VerticalScroll(
                     Input(placeholder="Filename",  id="filenameId"),
@@ -23,14 +28,13 @@ class SSHKeyScreen(Screen):
                     Select(options, prompt="Select key type", tooltip="Specifies the type of key to create. The possible values are ''rsa1'' for protocol version 1 and ''rsa'' or ''dsa'' for protocol version 2.", id="typeId"),
                     # RadioButton("Change Passphrase", id="changePassphraseId"),
                     # Input(placeholder="Old Passphrase", disabled=True, id="oldpassphraseId"),
-                    VerticalScroll(
-                        Button("Go to main Menu", id="menuBtn"),
-                    )
+                    id="optionsPanel"
                 )
                 yield VerticalScroll(
-                    Button("Search", id="searchBtn"),
                     Button("Main Menu", id="menuBtn"),
                     Button("Submit", id="submitBtn"),
+                    Static("WARNING\nCommands May Take Time to Load", id ="warning"),
+                    id="buttonsPanel"
                 )
                 yield TextArea("", id="textArea")
 
