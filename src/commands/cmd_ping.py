@@ -36,11 +36,11 @@ class CommandPing(Command):
             ip = ipaddress.ip_address(self.dest_ip)
         except ValueError:
             raise ValueError(f"{self.dest_ip} is not a valid IP address")
-        
+
         # validate both IPV4 and IPV6
         if self.ipv4 and self.ipv6:
             raise ValueError(f"Can't set both IPv4 and IPv6")
-        
+
         # validate ip string version matches flag if set
         version = ip.version
         if self.ipv4 and version == 6:
@@ -55,26 +55,26 @@ class CommandPing(Command):
                 count = int(self.count)
             except TypeError:
                 raise TypeError("Count must be an integer")
-            
+
             if count < 0:
                 raise ValueError(f"Count must be a positive number")
-            
+
             if count > 1000:
                 raise ValueError(f"Count is too large, must be <= 1000")
-            
+
         # interval validation
         if self.interval is not None:
             try:
                 interval = float(self.interval)
             except TypeError:
                 raise TypeError("Interval must be a float or integer")
-            
+
             if interval < 0.2:
                 raise ValueError("Interval must be greater than 0.2s")
-            
+
             if interval > 60:
                 raise ValueError("Interval must be less than 60s")
-            
+
     def build_cmd(self):
 
         cmd=[]
@@ -105,14 +105,14 @@ class CommandPing(Command):
 
         return cmd
     
-    def run_cmd(self):
-        cmd = self.build_cmd()
-        execute("ping", cmd, print)
+    # def run_cmd(self):
+    #     cmd = self.build_cmd()
+    #     execute("ping", cmd, print)
     
 
 # To test
 if __name__ == "__main__":
-    ping = CommandPing() 
+    ping = CommandPing()
     ui_dict = {'destId':'142.251.142.206', 'countId': '20', 'intervalId': '5',
               'options':["IPV4", 'Broadcast', 'Flood','Count','Interval','Audible']}
     ping.parse(ui_dict)
@@ -121,6 +121,6 @@ if __name__ == "__main__":
         ping.validate_params()
     except ValueError as e:
         print(e)
-       
+
 
    #CommandPing.run_cmd(ping)
