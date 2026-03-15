@@ -107,7 +107,10 @@ class CommandPing(Command):
     
     async def run_cmd(self):
         cmd = self.build_cmd()
-        execute_return = await execute("ping", cmd, print)
+        if self.count:
+            execute_return = await execute("ping", cmd, print, self.count) 
+        else:
+            execute_return = await execute("ping", cmd, print)
         return execute_return
     
 

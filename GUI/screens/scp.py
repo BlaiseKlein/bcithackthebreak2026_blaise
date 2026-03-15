@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, Header, Footer, Input, SelectionList, TextArea
+from textual.widgets import Button, Header, Footer, Input, SelectionList, TextArea, Static
 from textual.screen import Screen
 from textual import on
 from screens.ai import AIScreen
@@ -8,12 +8,14 @@ from src.commands.cmd_scp import CommandSCP
 
 class SPCScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
+    TITLE = "SCP"
 
     def compose(self) -> ComposeResult:
         yield Header()
         with VerticalScroll(id="mainContainer"):
             with Horizontal(id="searchBar"):
                 yield Input(placeholder = "Search", id="aiSearch")
+                yield Button("Search", id="searchBtn")
             
 
             with Horizontal(id ="content"):
@@ -21,7 +23,7 @@ class SPCScreen(Screen):
                         SelectionList[int](
                                 ("Port", 0),
                                 ("Limit Bandwidth", 1),
-                                ("ompression", 2),
+                                ("Compression", 2),
                                 ("Copy Subdirectories", 3),
                                 ("Verbose", 4),
                                 ("Private Key", 5),
@@ -34,13 +36,15 @@ class SPCScreen(Screen):
                         Input(placeholder = "Target Password",id="passwpr", password=True),
                         Input(placeholder = "Port", disabled=True, id="portId"),
                         Input(placeholder = "Bandwidth Limit", disabled=True, id="bandwidthId"),
-                        Input(placeholder = "Private Key", disabled=True, id="privateKeyId")
+                        Input(placeholder = "Private Key", disabled=True, id="privateKeyId"),
+                        id="optionsPanel"
                     )
 
                     yield VerticalScroll(
-                        Button("Search", id="searchBtn"),
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
+                        Static("WARNING\nCommands May Take Time to Load", id ="warning"),
+                        id="buttonsPanel"
                     )
                     
                     yield TextArea("",id ="textArea") 
