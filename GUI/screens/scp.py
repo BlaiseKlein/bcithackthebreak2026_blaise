@@ -13,6 +13,7 @@ class SPCScreen(Screen):
         with VerticalScroll(id="mainContainer"):
             with Horizontal(id="searchBar"):
                 yield Input(placeholder = "Search", id="aiSearch")
+                yield Button("Search", id="searchBtn")
             
 
             with Horizontal(id ="content"):
@@ -33,13 +34,14 @@ class SPCScreen(Screen):
                         Input(placeholder = "Target Machine Password",id="passwpr"),
                         Input(placeholder = "Port", disabled=True, id="portId"),
                         Input(placeholder = "Bandwidth Limit", disabled=True, id="bandwidthId"),
-                        Input(placeholder = "Private Key", disabled=True, id="privateKeyId")
+                        Input(placeholder = "Private Key", disabled=True, id="privateKeyId"),
+                        id="optionsPanel"
                     )
 
                     yield VerticalScroll(
-                        Button("Search", id="searchBtn"),
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
+                        id="buttonsPanel"
                     )
                     
                     yield TextArea("",id ="textArea") 

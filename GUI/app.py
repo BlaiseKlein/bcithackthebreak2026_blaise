@@ -3,6 +3,8 @@ from screens.menu import MainMenuScreen
 from screens.ping import PingScreen
 from screens.scp import SPCScreen
 from screens.ai import AIScreen
+from screens.curl import CurlScreen
+from screens.profile import ProfileScreen
 class Menu(App[str]):
     CSS_PATH = "css/button.tcss"
     
@@ -11,6 +13,8 @@ class Menu(App[str]):
         "pingScreen": PingScreen,
         "aiScreen": AIScreen,
         "scpScreen": SPCScreen,
+        "curlScreen": CurlScreen,
+        "profileScreen": ProfileScreen,
     }
 
     def on_mount(self) -> None:
