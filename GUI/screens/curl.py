@@ -1,13 +1,13 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, SelectionList, Header, Footer, Input, TextArea
+from textual.widgets import Button, SelectionList, Header, Footer, Input, TextArea, Static
 from textual.screen import Screen
-from textual.validation import Number
 from textual import on
 from screens.ai import AIScreen
 
 class CurlScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
+    TITLE = "CURL"
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -37,6 +37,7 @@ class CurlScreen(Screen):
                     yield VerticalScroll(
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
+                        Static("WARNING\nCommands May Take Time to Load", id ="warning"),
                         id="buttonsPanel"
                     )
                     
@@ -91,6 +92,7 @@ class CurlScreen(Screen):
     def onSearch(self, event: Button.Pressed) -> None:
         search_value = self.query_one("#aiSearch", Input).value
         self.app.push_screen(AIScreen(initial_text=search_value))
+        
 
         
 

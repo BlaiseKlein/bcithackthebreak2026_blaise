@@ -62,13 +62,3 @@ Button {
     margin: 0 0 1 0;
     width: 100%;
 }
-
-#warning {
-    background: $error;
-    color: $text;
-    padding: 1;
-    margin: 0;
-    text-align: center;
-    dock: bottom;  /* This docks it to the bottom */
-    width: 100%;
-}
