@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, SelectionList, Header, Footer, Input, TextArea
+from textual.widgets import Button, SelectionList, Header, Footer, Input, TextArea, Static
 from textual.screen import Screen
 from textual.validation import Number
 from textual import on
@@ -9,6 +9,7 @@ from src.commands.cmd_ping import CommandPing
 
 class PingScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
+    TITLE = "PING"
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -39,6 +40,7 @@ class PingScreen(Screen):
                     yield VerticalScroll(
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
+                        Static("WARNING\nCommands May Take Time to Load", id ="warning"),
                         id="buttonsPanel"
                     )
                     
