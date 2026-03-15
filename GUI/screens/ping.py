@@ -5,7 +5,7 @@ from textual.screen import Screen
 from textual.validation import Number
 from textual import on
 from screens.ai import AIScreen
-from src.commands.cmd_ping import CommandPing, parse, validate_params, build_cmd, run_cmd
+from src.commands.cmd_ping import CommandPing
 
 class PingScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
@@ -57,7 +57,7 @@ class PingScreen(Screen):
         self.query_one("#intervalId").disabled = 5 not in selectedIndices
 
     @on(Button.Pressed, "#submitBtn")
-    def onSubmit(self, event: Button.Pressed)-> None:
+    async def onSubmit(self, event: Button.Pressed)-> None:
         allOptions = [
         {"index": 0, "label": "IPV4"},
         {"index": 1, "label": "IPV6"},
@@ -91,13 +91,12 @@ class PingScreen(Screen):
 
         try:
             ping.validate_params()
-            cmd_string = ping.build_cmd()
-            ping.run_cmd(cmd_string)
+            outputText = await ping.run_cmd()
         except ValueError as e:
             outputText = e
 
         textArea = self.query_one("#textArea", TextArea)
-        textArea.text = inputStr
+        textArea.text = outputText
 
     @on(Button.Pressed, "#searchBtn")
     def onSearch(self, event: Button.Pressed) -> None:
