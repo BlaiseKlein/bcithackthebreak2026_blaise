@@ -44,7 +44,6 @@ class SPCScreen(Screen):
                         Button("Main Menu", id="menuBtn"),
                         Button("Submit", id="submitBtn"),
                         Static("WARNING\nCommands May Take Time to Load", id ="warning"),
-                        Static("WARNING\nMake Sure Firewalls Allow SCP", id ="warning"),
                         id="buttonsPanel"
                     )
                     
