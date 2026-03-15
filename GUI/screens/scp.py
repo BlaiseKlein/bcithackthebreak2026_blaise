@@ -100,7 +100,7 @@ class SPCScreen(Screen):
             outputText = str(e)
 
         textArea = self.query_one("#textArea", TextArea)
-        textArea.text = inputStr
+        textArea.text = str(outputText)
 
     @on(Button.Pressed, "#searchBtn")
     def onSearch(self, event: Button.Pressed) -> None:

@@ -3,7 +3,6 @@ from time import sleep
 from subprocess import CalledProcessError, PIPE
 import signal
 
-
 # Executes a command with given paremeters and prints according to a callback function
 # param - command: the command to execute
 # param - parameters: a list of the parameters for the command, may be empty
@@ -14,9 +13,7 @@ async def execute(command, parameters, callback, postparameters = None):
     try:
         completed = subprocess.Popen([command] + parameters, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         if postparameters:
-            for parameter in postparameters:
-                completed.stdin.write(postparameters.encode())
-                sleep(0.5)
+            completed.stdin.write(postparameters.encode())
         try:
             completed.wait(timeout=3)
         except subprocess.TimeoutExpired:

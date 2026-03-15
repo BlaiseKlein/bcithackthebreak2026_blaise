@@ -1,0 +1,2 @@
+
+Executing: scp -o StrictHostKeyChecking=no /home/louise/temp/temp.txt blaisek@172.20.10.2:/home/blaisek/temp_test

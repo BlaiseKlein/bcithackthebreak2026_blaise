@@ -1,5 +1,6 @@
+import pexpect
 from .cmd_abc import Command
-from src.executor import execute
+# from src.executor import execute
 
 # TODO: Incomplete, will fail if tested. Finish implementation after executor is updated to take password
 class CommandSCP(Command):
@@ -81,6 +82,8 @@ class CommandSCP(Command):
             cmd.append(f"-l {self.limit_bandwidth}")
 
         # Required fields for all options:
+        cmd.append("-o StrictHostKeyChecking=no")
+        # cmd.append("-o StrictHostKeyChecking=no")
 
         if not all([self.file, self.target_username, self.target_host, self.target_directory]):
             return "Missing required fields!"
@@ -90,19 +93,49 @@ class CommandSCP(Command):
         destination = f"{self.target_username}@{self.target_host}:{self.target_directory}"
         cmd.append(destination)
         
-        # TODO: pass as separate attribute for executor
-        # if self.target_password:
-        #     cmd.append(self.append(target_directory))
-        # elif:
-        #     return "Missing directory on target machine!"
-
         return cmd
     async def run_cmd(self):
-        cmd = self.build_cmd()
-        execute_return = await execute("scp", cmd, print, ["yes", self.target_password])
-        if "yes/no/[fingerprint]" in execute_return:
-            execute_return = await execute("scp", cmd, print, [self.target_password])
-        return execute_return
+        # cmd = self.build_cmd()
+        # with open("tester.txt", "a") as f:
+        #     f.write(str(cmd))
+        # if isinstance(cmd, str):
+        #     return cmd
+
+        # password_to_send = self.target_password
+        # if password_to_send and not password_to_send.endswith("\n"):
+        #     password_to_send += "\n"
+
+        # execute_return = await execute("scp", cmd, print, password_to_send)
+        # return execute_return
+        cmd_list = self.build_cmd()
+        
+        # Log for debugging
+        with open("tester.txt", "a") as f:
+            f.write(f"\nExecuting: scp {' '.join(cmd_list)}\n")
+
+        if isinstance(cmd_list, str):
+            return cmd_list
+
+        full_command = " ".join(["scp"] + cmd_list)
+        
+        try:
+            # spawn the process. encoding='utf-8' is key for processing strings
+            child = pexpect.spawn(full_command, encoding='utf-8', timeout=30)
+            
+            # Look for password prompt or EOF (if it finishes immediately via SSH key)
+            index = child.expect(["(?i)password:", pexpect.EOF, pexpect.TIMEOUT])
+            
+            if index == 0:
+                child.sendline(self.target_password)
+                child.expect(pexpect.EOF)
+                return child.before
+            elif index == 1:
+                return child.before # Finished without needing password
+            else:
+                return "Error: Timeout waiting for password prompt."
+
+        except Exception as e:
+            return f"Transfer failed: {str(e)}"
 
 # if __name__ == "__main__":
 #    scp = CommandSCP()
