@@ -1,5 +1,5 @@
 from .cmd_abc import Command
-from executor import execute
+from src.executor import execute
 import ipaddress
 
 class CommandPing(Command):
@@ -105,9 +105,10 @@ class CommandPing(Command):
 
         return cmd
     
-    def run_cmd(self):
+    async def run_cmd(self):
         cmd = self.build_cmd()
-        execute("ping", cmd, print)
+        execute_return = await execute("ping", cmd, print)
+        return execute_return
     
 
 # To test
