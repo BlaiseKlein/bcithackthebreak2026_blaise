@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+from src.openai_service import get_ai_bot_response
+=======
 from openai_service import get_ai_bot_response
+>>>>>>> dev
 
 def main():
     prompt = input("Ask about a command: ")
