@@ -4,6 +4,7 @@ from textual.widgets import Button, SelectionList, Header, Footer, Input, TextAr
 from textual.screen import Screen
 from textual import on
 from screens.ai import AIScreen
+from src.commands.cmd_curl import CommandCurl
 
 class CurlScreen(Screen):
     CSS_PATH = "../css/ping.tcss"
@@ -54,12 +55,12 @@ class CurlScreen(Screen):
     def onListChanged(self, event: SelectionList.SelectedChanged) ->None:
         selectionList = self.query_one("#optionId", SelectionList)
         selectedIndices = selectionList.selected
-        self.query_one("#postId").disabled = 2 not in selectedIndices
+        self.query_one("#postId").disabled = 3 not in selectedIndices
         self.query_one("#userId").disabled = 4 not in selectedIndices
         self.query_one("#passwordId").disabled = 4 not in selectedIndices
 
     @on(Button.Pressed, "#submitBtn")
-    def onSubmit(self, event: Button.Pressed)-> None:
+    async def onSubmit(self, event: Button.Pressed)-> None:
         allOptions = [
         {"index": 0, "label": "Save File"},
         {"index": 1, "label": "Follow Redirect"},
@@ -83,10 +84,20 @@ class CurlScreen(Screen):
             
         inputValues["options"] = options
         
-        inputStr = str(inputValues)
+        curl = CommandCurl()
+        curl.parse(inputValues)
+
+        outputText = ""
+        
+        try:
+            outputText = await curl.run_cmd()
+            if "Save File" in inputValues.get("options") and len(inputValues.get("options")) == 1:
+                outputText = "File Saved!"
+        except ValueError as e:
+            outputText = str(e)
 
         textArea = self.query_one("#textArea", TextArea)
-        textArea.text = inputStr
+        textArea.text = outputText
 
     @on(Button.Pressed, "#searchBtn")
     def onSearch(self, event: Button.Pressed) -> None:

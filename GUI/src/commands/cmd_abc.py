@@ -11,5 +11,5 @@ class Command(ABC):
         pass
 
     @abstractmethod
-    def run_cmd(self):
+    async def run_cmd(self):
         pass
